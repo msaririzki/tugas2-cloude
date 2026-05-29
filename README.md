@@ -19,7 +19,8 @@ podman ps -a
 
 ## Akses Aplikasi
 
-- Aplikasi CRUD: `http://localhost:8000`
+- Admin CRUD: `http://localhost:8000`
+- Tampilan publik: `http://localhost:8000/publik.php`
 - phpMyAdmin: `http://localhost:8001`
 
 Login phpMyAdmin:

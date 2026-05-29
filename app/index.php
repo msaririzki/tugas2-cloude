@@ -35,14 +35,20 @@ $heroStyle = file_exists($heroPath) ? " style=\"background-image: linear-gradien
                     <span>CRUD PHP + MariaDB</span>
                 </div>
             </div>
-            <div class="identity">2301010008</div>
+            <div class="top-actions">
+                <div class="view-switch" aria-label="Navigasi tampilan">
+                    <a href="publik.php">Tampilan Publik</a>
+                    <a class="active" href="index.php">Admin Panel</a>
+                </div>
+                <div class="identity">2301010008</div>
+            </div>
         </nav>
 
         <section class="hero"<?= $heroStyle ?>>
             <div class="hero-content">
                 <p class="eyebrow">Tugas 2 Cloud Computing</p>
-                <h1>CRUD Data Kamar Villa</h1>
-                <p class="subtitle">Sistem sederhana untuk mengelola data kamar villa, dibuat dengan PHP, MariaDB, phpMyAdmin, dan Podman Compose.</p>
+                <h1>Admin Panel Kamar Villa</h1>
+                <p class="subtitle">Area pengelolaan data kamar untuk tambah, edit, hapus, dan monitoring status. Tampilan publik dipisahkan agar aplikasi terlihat lebih profesional.</p>
                 <div class="hero-meta">
                     <span>PHP Apache</span>
                     <span>MariaDB</span>
@@ -51,6 +57,7 @@ $heroStyle = file_exists($heroPath) ? " style=\"background-image: linear-gradien
                 </div>
                 <div class="hero-actions">
                     <a class="button primary" href="tambah.php">Tambah Kamar</a>
+                    <a class="button secondary light" href="publik.php">Lihat Tampilan Publik</a>
                     <a class="button ghost" href="http://localhost:8001" target="_blank" rel="noreferrer">Buka phpMyAdmin</a>
                 </div>
                 <div class="student-card">
@@ -105,7 +112,7 @@ $heroStyle = file_exists($heroPath) ? " style=\"background-image: linear-gradien
             <div class="panel-header">
                 <div>
                     <p class="eyebrow dark">Data dari MariaDB</p>
-                    <h2>Daftar Kamar</h2>
+                    <h2>Daftar Kamar Admin</h2>
                     <p class="panel-copy">Seluruh baris di bawah ini dibaca langsung dari tabel <code>kamar</code> pada database <code>villa_rizki_db</code>.</p>
                 </div>
                 <a class="button primary small" href="tambah.php">Tambah Kamar</a>

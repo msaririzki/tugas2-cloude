@@ -38,7 +38,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 </head>
 <body>
     <main class="form-shell">
-        <a class="back-link" href="index.php">Kembali ke daftar kamar</a>
+        <div class="form-nav">
+            <a class="back-link" href="index.php">Kembali ke Admin Panel</a>
+            <a class="back-link muted" href="publik.php">Lihat Tampilan Publik</a>
+        </div>
         <section class="form-card">
             <div class="form-banner">Villa Room Management</div>
             <div class="form-heading">
