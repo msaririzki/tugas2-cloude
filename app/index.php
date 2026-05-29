@@ -11,6 +11,7 @@ $totalKamar = count($rooms);
 $totalAvailable = count(array_filter($rooms, fn ($room) => $room['status'] === 'Available'));
 $totalCleaning = count(array_filter($rooms, fn ($room) => $room['status'] === 'Cleaning'));
 $totalMaintenance = count(array_filter($rooms, fn ($room) => $room['status'] === 'Maintenance'));
+$hargaTertinggi = $rooms === [] ? 0 : max(array_map(fn ($room) => (int) $room['harga'], $rooms));
 $heroPath = __DIR__ . '/assets/hero-1.jpg';
 $heroStyle = file_exists($heroPath) ? " style=\"background-image: linear-gradient(115deg, rgba(13,27,20,.92), rgba(13,27,20,.56) 48%, rgba(13,27,20,.18)), url('assets/hero-1.jpg');\"" : '';
 ?>
@@ -42,6 +43,12 @@ $heroStyle = file_exists($heroPath) ? " style=\"background-image: linear-gradien
                 <p class="eyebrow">Tugas 2 Cloud Computing</p>
                 <h1>CRUD Data Kamar Villa</h1>
                 <p class="subtitle">Sistem sederhana untuk mengelola data kamar villa, dibuat dengan PHP, MariaDB, phpMyAdmin, dan Podman Compose.</p>
+                <div class="hero-meta">
+                    <span>PHP Apache</span>
+                    <span>MariaDB</span>
+                    <span>phpMyAdmin</span>
+                    <span>Podman Compose</span>
+                </div>
                 <div class="hero-actions">
                     <a class="button primary" href="tambah.php">Tambah Kamar</a>
                     <a class="button ghost" href="http://localhost:8001" target="_blank" rel="noreferrer">Buka phpMyAdmin</a>
@@ -70,6 +77,24 @@ $heroStyle = file_exists($heroPath) ? " style=\"background-image: linear-gradien
                     <p>Maintenance</p>
                 </div>
             </div>
+        </section>
+
+        <section class="metrics">
+            <article>
+                <span class="metric-label">Database</span>
+                <strong>villa_rizki_db</strong>
+                <p>Tabel utama: kamar</p>
+            </article>
+            <article>
+                <span class="metric-label">Harga Tertinggi</span>
+                <strong><?= rupiah($hargaTertinggi) ?></strong>
+                <p>Dihitung dari data MariaDB</p>
+            </article>
+            <article>
+                <span class="metric-label">Service Web</span>
+                <strong>php-apache-rizki</strong>
+                <p>HTTP aktif pada port 8000</p>
+            </article>
         </section>
 
         <?php if (isset($_GET['pesan'])): ?>
@@ -126,10 +151,13 @@ $heroStyle = file_exists($heroPath) ? " style=\"background-image: linear-gradien
                             <tr>
                                 <td><?= (int) $room['id'] ?></td>
                                 <td>
-                                    <strong><?= h($room['nama_kamar']) ?></strong>
+                                    <div class="room-name">
+                                        <strong><?= h($room['nama_kamar']) ?></strong>
+                                        <span>Unit #<?= str_pad((string) $room['id'], 3, '0', STR_PAD_LEFT) ?></span>
+                                    </div>
                                 </td>
-                                <td><?= h($room['tipe']) ?></td>
-                                <td><?= rupiah((int) $room['harga']) ?></td>
+                                <td><span class="type-pill"><?= h($room['tipe']) ?></span></td>
+                                <td><strong class="price"><?= rupiah((int) $room['harga']) ?></strong></td>
                                 <td>
                                     <span class="status <?= statusClass($room['status']) ?>"><?= h($room['status']) ?></span>
                                 </td>

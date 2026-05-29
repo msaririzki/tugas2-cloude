@@ -51,6 +51,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <main class="form-shell">
         <a class="back-link" href="index.php">Kembali ke daftar kamar</a>
         <section class="form-card">
+            <div class="form-banner">Villa Room Management</div>
             <div class="form-heading">
                 <p class="eyebrow dark">Update</p>
                 <h1>Edit Kamar Villa</h1>
@@ -70,14 +71,17 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     <label>
                         Nama Kamar
                         <input name="nama_kamar" value="<?= h($data['nama_kamar']) ?>" required>
+                        <small>Nama kamar yang tampil pada daftar utama.</small>
                     </label>
                     <label>
                         Tipe
                         <input name="tipe" value="<?= h($data['tipe']) ?>" required>
+                        <small>Kategori kamar untuk pengelompokan data.</small>
                     </label>
                     <label>
                         Harga
                         <input name="harga" type="number" min="0" value="<?= h((string) $data['harga']) ?>" required>
+                        <small>Masukkan angka tanpa format rupiah.</small>
                     </label>
                     <label>
                         Status
@@ -86,9 +90,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                                 <option value="<?= $status ?>" <?= $data['status'] === $status ? 'selected' : '' ?>><?= $status ?></option>
                             <?php endforeach; ?>
                         </select>
+                        <small>Ubah sesuai kondisi operasional terakhir.</small>
                     </label>
                 </div>
-                <button class="button primary" type="submit">Update Kamar</button>
+                <div class="form-actions">
+                    <a class="button secondary" href="index.php">Batal</a>
+                    <button class="button primary" type="submit">Update Kamar</button>
+                </div>
             </form>
         </section>
     </main>
