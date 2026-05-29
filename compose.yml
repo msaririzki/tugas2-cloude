@@ -1,0 +1,45 @@
+services:
+  php-apache-rizki:
+    container_name: php-apache-rizki
+    build:
+      context: .
+      dockerfile: php-apache.Containerfile
+    ports:
+      - "8000:80"
+    volumes:
+      - ./app:/var/www/html:Z
+    depends_on:
+      - mariadb-rizki
+    restart: unless-stopped
+
+  mariadb-rizki:
+    container_name: mariadb-rizki
+    build:
+      context: .
+      dockerfile: mariadb.Containerfile
+    environment:
+      MARIADB_ROOT_PASSWORD: root123
+      MARIADB_DATABASE: villa_rizki_db
+      MARIADB_USER: villa_user
+      MARIADB_PASSWORD: villa_pass
+    ports:
+      - "3306:3306"
+    volumes:
+      - mariadb-data:/var/lib/mysql
+    restart: unless-stopped
+
+  phpmyadmin-rizki:
+    container_name: phpmyadmin-rizki
+    image: docker.io/phpmyadmin/phpmyadmin
+    environment:
+      PMA_HOST: mariadb-rizki
+      PMA_USER: villa_user
+      PMA_PASSWORD: villa_pass
+    ports:
+      - "8001:80"
+    depends_on:
+      - mariadb-rizki
+    restart: unless-stopped
+
+volumes:
+  mariadb-data:
