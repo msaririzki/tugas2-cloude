@@ -9,8 +9,10 @@ if (!$result) {
 $rooms = $result->fetch_all(MYSQLI_ASSOC);
 $totalKamar = count($rooms);
 $totalAvailable = count(array_filter($rooms, fn ($room) => $room['status'] === 'Available'));
+$totalCleaning = count(array_filter($rooms, fn ($room) => $room['status'] === 'Cleaning'));
+$totalMaintenance = count(array_filter($rooms, fn ($room) => $room['status'] === 'Maintenance'));
 $heroPath = __DIR__ . '/assets/hero-1.jpg';
-$heroStyle = file_exists($heroPath) ? " style=\"background-image: linear-gradient(90deg, rgba(13,27,20,.82), rgba(13,27,20,.38)), url('assets/hero-1.jpg');\"" : '';
+$heroStyle = file_exists($heroPath) ? " style=\"background-image: linear-gradient(115deg, rgba(13,27,20,.92), rgba(13,27,20,.56) 48%, rgba(13,27,20,.18)), url('assets/hero-1.jpg');\"" : '';
 ?>
 <!doctype html>
 <html lang="id">
@@ -22,14 +24,32 @@ $heroStyle = file_exists($heroPath) ? " style=\"background-image: linear-gradien
 </head>
 <body>
     <main class="page-shell">
+        <nav class="topbar">
+            <div class="brand">
+                <?php if (file_exists(__DIR__ . '/assets/logo-dafano-villa.jpg')): ?>
+                    <img src="assets/logo-dafano-villa.jpg" alt="Logo Dafano Villa">
+                <?php endif; ?>
+                <div>
+                    <strong>Dafano Villa Rooms</strong>
+                    <span>CRUD PHP + MariaDB</span>
+                </div>
+            </div>
+            <div class="identity">2301010008</div>
+        </nav>
+
         <section class="hero"<?= $heroStyle ?>>
             <div class="hero-content">
                 <p class="eyebrow">Tugas 2 Cloud Computing</p>
                 <h1>CRUD Data Kamar Villa</h1>
-                <p class="subtitle">Muhamad Sari Rizki - 2301010008</p>
+                <p class="subtitle">Sistem sederhana untuk mengelola data kamar villa, dibuat dengan PHP, MariaDB, phpMyAdmin, dan Podman Compose.</p>
                 <div class="hero-actions">
                     <a class="button primary" href="tambah.php">Tambah Kamar</a>
                     <a class="button ghost" href="http://localhost:8001" target="_blank" rel="noreferrer">Buka phpMyAdmin</a>
+                </div>
+                <div class="student-card">
+                    <span>Mahasiswa</span>
+                    <strong>Muhamad Sari Rizki</strong>
+                    <em>2301010008</em>
                 </div>
             </div>
             <div class="hero-stats">
@@ -40,6 +60,14 @@ $heroStyle = file_exists($heroPath) ? " style=\"background-image: linear-gradien
                 <div>
                     <span><?= $totalAvailable ?></span>
                     <p>Siap Dipesan</p>
+                </div>
+                <div>
+                    <span><?= $totalCleaning ?></span>
+                    <p>Cleaning</p>
+                </div>
+                <div>
+                    <span><?= $totalMaintenance ?></span>
+                    <p>Maintenance</p>
                 </div>
             </div>
         </section>
@@ -53,8 +81,26 @@ $heroStyle = file_exists($heroPath) ? " style=\"background-image: linear-gradien
                 <div>
                     <p class="eyebrow dark">Data dari MariaDB</p>
                     <h2>Daftar Kamar</h2>
+                    <p class="panel-copy">Seluruh baris di bawah ini dibaca langsung dari tabel <code>kamar</code> pada database <code>villa_rizki_db</code>.</p>
                 </div>
                 <a class="button primary small" href="tambah.php">Tambah Kamar</a>
+            </div>
+
+            <div class="room-grid">
+                <article>
+                    <img src="assets/commercial-villa.jpg" alt="Commercial Villa" onerror="this.style.display='none'">
+                    <div>
+                        <strong>Commercial Villa</strong>
+                        <span>Referensi visual kamar utama</span>
+                    </div>
+                </article>
+                <article>
+                    <img src="assets/superior-villa.jpg" alt="Superior Villa" onerror="this.style.display='none'">
+                    <div>
+                        <strong>Superior Villa</strong>
+                        <span>Referensi visual kamar premium</span>
+                    </div>
+                </article>
             </div>
 
             <div class="table-wrap">

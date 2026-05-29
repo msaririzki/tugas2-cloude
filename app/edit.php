@@ -51,8 +51,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <main class="form-shell">
         <a class="back-link" href="index.php">Kembali ke daftar kamar</a>
         <section class="form-card">
-            <p class="eyebrow dark">Update</p>
-            <h1>Edit Kamar Villa</h1>
+            <div class="form-heading">
+                <p class="eyebrow dark">Update</p>
+                <h1>Edit Kamar Villa</h1>
+                <p>Perbarui harga, tipe, atau status operasional kamar yang sudah tersimpan.</p>
+            </div>
 
             <?php if ($errors !== []): ?>
                 <div class="error-box">
@@ -63,26 +66,28 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             <?php endif; ?>
 
             <form method="post">
-                <label>
-                    Nama Kamar
-                    <input name="nama_kamar" value="<?= h($data['nama_kamar']) ?>" required>
-                </label>
-                <label>
-                    Tipe
-                    <input name="tipe" value="<?= h($data['tipe']) ?>" required>
-                </label>
-                <label>
-                    Harga
-                    <input name="harga" type="number" min="0" value="<?= h((string) $data['harga']) ?>" required>
-                </label>
-                <label>
-                    Status
-                    <select name="status" required>
-                        <?php foreach (['Available', 'Cleaning', 'Maintenance'] as $status): ?>
-                            <option value="<?= $status ?>" <?= $data['status'] === $status ? 'selected' : '' ?>><?= $status ?></option>
-                        <?php endforeach; ?>
-                    </select>
-                </label>
+                <div class="form-grid">
+                    <label>
+                        Nama Kamar
+                        <input name="nama_kamar" value="<?= h($data['nama_kamar']) ?>" required>
+                    </label>
+                    <label>
+                        Tipe
+                        <input name="tipe" value="<?= h($data['tipe']) ?>" required>
+                    </label>
+                    <label>
+                        Harga
+                        <input name="harga" type="number" min="0" value="<?= h((string) $data['harga']) ?>" required>
+                    </label>
+                    <label>
+                        Status
+                        <select name="status" required>
+                            <?php foreach (['Available', 'Cleaning', 'Maintenance'] as $status): ?>
+                                <option value="<?= $status ?>" <?= $data['status'] === $status ? 'selected' : '' ?>><?= $status ?></option>
+                            <?php endforeach; ?>
+                        </select>
+                    </label>
+                </div>
                 <button class="button primary" type="submit">Update Kamar</button>
             </form>
         </section>
