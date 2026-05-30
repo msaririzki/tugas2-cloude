@@ -44,64 +44,73 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Edit Kamar</title>
+    <title>Edit Kamar - Admin Panel</title>
     <link rel="stylesheet" href="style.css">
 </head>
-<body class="form-body">
-    <main class="form-shell">
-        <div class="form-nav">
-            <a class="back-link" href="index.php">Kembali ke Admin Panel</a>
-            <a class="back-link muted" href="publik.php">Lihat Tampilan Publik</a>
+<body class="adm-body">
+    <nav class="adm-navbar">
+        <div class="adm-brand">
+            <div class="adm-brand-text">
+                <strong>Dafano Villa Admin</strong>
+                <span>Update Kamar</span>
+            </div>
         </div>
-        <section class="form-card">
-            <div class="form-banner">Villa Room Management</div>
-            <div class="form-heading">
-                <p class="eyebrow dark">Update</p>
-                <h1>Edit Kamar Villa</h1>
-                <p>Perbarui harga, tipe, atau status operasional kamar yang sudah tersimpan.</p>
+        <div class="adm-nav-links">
+            <a href="publik.php">Tampilan Publik</a>
+            <a href="index.php">Admin Panel</a>
+        </div>
+    </nav>
+
+    <main class="adm-container adm-form-container">
+        <div class="adm-form-card">
+            <div class="adm-form-header">
+                <h2>Edit Kamar Villa</h2>
+                <p>Perbarui informasi untuk Unit #<?= str_pad((string) $id, 3, '0', STR_PAD_LEFT) ?>.</p>
             </div>
 
             <?php if ($errors !== []): ?>
-                <div class="error-box">
+                <div class="adm-alert adm-alert-error">
                     <?php foreach ($errors as $error): ?>
-                        <p><?= h($error) ?></p>
+                        <div><?= h($error) ?></div>
                     <?php endforeach; ?>
                 </div>
             <?php endif; ?>
 
-            <form method="post">
-                <div class="form-grid">
-                    <label>
-                        Nama Kamar
-                        <input name="nama_kamar" value="<?= h($data['nama_kamar']) ?>" required>
-                        <small>Nama kamar yang tampil pada daftar utama.</small>
-                    </label>
-                    <label>
-                        Tipe
-                        <input name="tipe" value="<?= h($data['tipe']) ?>" required>
-                        <small>Kategori kamar untuk pengelompokan data.</small>
-                    </label>
-                    <label>
-                        Harga
-                        <input name="harga" type="number" min="0" value="<?= h((string) $data['harga']) ?>" required>
-                        <small>Masukkan angka tanpa format rupiah.</small>
-                    </label>
-                    <label>
-                        Status
-                        <select name="status" required>
-                            <?php foreach (['Available', 'Cleaning', 'Maintenance'] as $status): ?>
-                                <option value="<?= $status ?>" <?= $data['status'] === $status ? 'selected' : '' ?>><?= $status ?></option>
-                            <?php endforeach; ?>
-                        </select>
-                        <small>Ubah sesuai kondisi operasional terakhir.</small>
-                    </label>
+            <form method="post" class="adm-form">
+                <div class="adm-form-group">
+                    <label>Nama Kamar</label>
+                    <input type="text" name="nama_kamar" value="<?= h($data['nama_kamar']) ?>" required>
+                    <span class="adm-helper-text">Nama kamar yang tampil pada daftar utama.</span>
                 </div>
-                <div class="form-actions">
-                    <a class="button secondary" href="index.php">Batal</a>
-                    <button class="button primary" type="submit">Update Kamar</button>
+
+                <div class="adm-form-group">
+                    <label>Tipe Kamar</label>
+                    <input type="text" name="tipe" value="<?= h($data['tipe']) ?>" required>
+                    <span class="adm-helper-text">Kategori tipe kamar.</span>
+                </div>
+
+                <div class="adm-form-group">
+                    <label>Harga (Rp)</label>
+                    <input type="number" name="harga" min="0" value="<?= h((string) $data['harga']) ?>" required>
+                    <span class="adm-helper-text">Masukkan nominal angka saja tanpa titik atau koma.</span>
+                </div>
+
+                <div class="adm-form-group">
+                    <label>Status Operasional</label>
+                    <select name="status" required>
+                        <?php foreach (['Available', 'Cleaning', 'Maintenance'] as $status): ?>
+                            <option value="<?= $status ?>" <?= $data['status'] === $status ? 'selected' : '' ?>><?= $status ?></option>
+                        <?php endforeach; ?>
+                    </select>
+                    <span class="adm-helper-text">Pilih status terbaru.</span>
+                </div>
+
+                <div class="adm-form-actions">
+                    <a href="index.php" class="adm-btn adm-btn-outline">Batal</a>
+                    <button type="submit" class="adm-btn adm-btn-primary">Update Kamar</button>
                 </div>
             </form>
-        </section>
+        </div>
     </main>
 </body>
 </html>

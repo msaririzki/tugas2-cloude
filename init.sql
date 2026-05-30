@@ -11,6 +11,10 @@ CREATE TABLE IF NOT EXISTS kamar (
 );
 
 INSERT INTO kamar (nama_kamar, tipe, harga, status) VALUES
-('Deluxe Garden Villa', 'Deluxe', 750000, 'Available'),
-('Family Pool Villa', 'Family', 1250000, 'Cleaning'),
-('Standard Villa', 'Standard', 500000, 'Maintenance');
+('Standard Villa 01', 'Standard Villa', 450000, 'Available'),
+('Standard Villa 02', 'Standard Villa', 450000, 'Available'),
+('Standard Villa 03', 'Standard Villa', 450000, 'Available'),
+('Standard Villa 04', 'Standard Villa', 450000, 'Cleaning'),
+('Standard Villa 05', 'Standard Villa', 450000, 'Cleaning'),
+('Standard Villa 06', 'Standard Villa', 450000, 'Maintenance'),
+('Standard Villa 07', 'Standard Villa', 450000, 'Available');

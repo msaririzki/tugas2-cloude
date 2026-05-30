@@ -12,8 +12,6 @@ $totalAvailable = count(array_filter($rooms, fn ($room) => $room['status'] === '
 $totalCleaning = count(array_filter($rooms, fn ($room) => $room['status'] === 'Cleaning'));
 $totalMaintenance = count(array_filter($rooms, fn ($room) => $room['status'] === 'Maintenance'));
 $hargaTertinggi = $rooms === [] ? 0 : max(array_map(fn ($room) => (int) $room['harga'], $rooms));
-$heroPath = __DIR__ . '/assets/hero-1.jpg';
-$heroStyle = file_exists($heroPath) ? " style=\"background-image: linear-gradient(115deg, rgba(13,27,20,.92), rgba(13,27,20,.56) 48%, rgba(13,27,20,.18)), url('assets/hero-1.jpg');\"" : '';
 ?>
 <!doctype html>
 <html lang="id">
@@ -23,123 +21,91 @@ $heroStyle = file_exists($heroPath) ? " style=\"background-image: linear-gradien
     <title>Admin Panel Dafano Villa</title>
     <link rel="stylesheet" href="style.css">
 </head>
-<body class="admin-body">
-    <main class="page-shell">
-        <nav class="topbar">
-            <div class="brand">
-                <?php if (file_exists(__DIR__ . '/assets/logo-dafano-villa.jpg')): ?>
-                    <img src="assets/logo-dafano-villa.jpg" alt="Logo Dafano Villa">
-                <?php endif; ?>
-                <div>
-                    <strong>Dafano Villa Admin</strong>
-                    <span>Room Management Suite</span>
-                </div>
+<body class="adm-body">
+    <!-- Navbar -->
+    <nav class="adm-navbar">
+        <div class="adm-brand">
+            <?php if (file_exists(__DIR__ . '/assets/logo-dafano-villa.jpg')): ?>
+                <img src="assets/logo-dafano-villa.jpg" alt="Logo Dafano Villa">
+            <?php endif; ?>
+            <div class="adm-brand-text">
+                <strong>Dafano Villa Admin</strong>
+                <span>Room Management Dashboard</span>
             </div>
-            <div class="top-actions">
-                <div class="view-switch" aria-label="Navigasi tampilan">
-                    <a href="publik.php">Tampilan Publik</a>
-                    <a class="active" href="index.php">Admin Panel</a>
-                </div>
-                <div class="identity">2301010008</div>
-            </div>
-        </nav>
+        </div>
+        <div class="adm-nav-links">
+            <a href="publik.php">Tampilan Publik</a>
+            <a href="index.php" class="adm-active">Admin Panel</a>
+            <a href="http://localhost:8001" target="_blank">phpMyAdmin</a>
+            <span class="adm-nim-badge">2301010008</span>
+        </div>
+    </nav>
 
-        <section class="hero"<?= $heroStyle ?>>
-            <div class="hero-content">
-                <p class="eyebrow">Tugas 2 Cloud Computing</p>
-                <h1>Admin Panel Kamar Villa</h1>
-                <p class="subtitle">Area pengelolaan data kamar untuk tambah, edit, hapus, dan monitoring status. Tampilan publik dipisahkan agar aplikasi terlihat lebih profesional.</p>
-                <div class="hero-meta">
-                    <span>PHP Apache</span>
-                    <span>MariaDB</span>
-                    <span>phpMyAdmin</span>
-                    <span>Podman Compose</span>
-                </div>
-                <div class="hero-actions">
-                    <a class="button primary" href="tambah.php">Tambah Kamar</a>
-                    <a class="button secondary light" href="publik.php">Lihat Tampilan Publik</a>
-                    <a class="button ghost" href="http://localhost:8001" target="_blank" rel="noreferrer">Buka phpMyAdmin</a>
-                </div>
-                <div class="student-card">
-                    <span>Mahasiswa</span>
-                    <strong>Muhamad Sari Rizki</strong>
-                    <em>2301010008</em>
-                </div>
-            </div>
-            <div class="hero-stats">
-                <div>
-                    <span><?= $totalKamar ?></span>
-                    <p>Total Kamar</p>
-                </div>
-                <div>
-                    <span><?= $totalAvailable ?></span>
-                    <p>Siap Dipesan</p>
-                </div>
-                <div>
-                    <span><?= $totalCleaning ?></span>
-                    <p>Cleaning</p>
-                </div>
-                <div>
-                    <span><?= $totalMaintenance ?></span>
-                    <p>Maintenance</p>
-                </div>
-            </div>
-        </section>
-
-        <section class="metrics">
-            <article>
-                <span class="metric-label">Database</span>
-                <strong>villa_rizki_db</strong>
-                <p>Tabel utama: kamar</p>
-            </article>
-            <article>
-                <span class="metric-label">Harga Tertinggi</span>
-                <strong><?= rupiah($hargaTertinggi) ?></strong>
-                <p>Dihitung dari data MariaDB</p>
-            </article>
-            <article>
-                <span class="metric-label">Service Web</span>
-                <strong>php-apache-rizki</strong>
-                <p>HTTP aktif pada port 8000</p>
-            </article>
-        </section>
-
+    <main class="adm-container">
         <?php if (isset($_GET['pesan'])): ?>
-            <div class="notice"><?= h($_GET['pesan']) ?></div>
+            <div class="adm-alert adm-alert-success"><?= h($_GET['pesan']) ?></div>
         <?php endif; ?>
 
-        <section class="panel">
-            <div class="panel-header">
-                <div>
-                    <p class="eyebrow dark">Data dari MariaDB</p>
-                    <h2>Daftar Kamar Admin</h2>
-                    <p class="panel-copy">Seluruh baris di bawah ini dibaca langsung dari tabel <code>kamar</code> pada database <code>villa_rizki_db</code>.</p>
+        <!-- Hero -->
+        <section class="adm-hero">
+            <div class="adm-hero-content">
+                <h1>Admin Panel Kamar Villa</h1>
+                <p>Kelola data kamar, harga, dan status operasional villa dari satu dashboard.</p>
+                <div class="adm-hero-actions">
+                    <a href="tambah.php" class="adm-btn adm-btn-primary">Tambah Kamar</a>
+                    <a href="publik.php" class="adm-btn adm-btn-secondary">Lihat Tampilan Publik</a>
+                    <a href="http://localhost:8001" target="_blank" class="adm-btn adm-btn-outline">Buka phpMyAdmin</a>
                 </div>
-                <a class="button primary small" href="tambah.php">Tambah Kamar</a>
             </div>
-
-            <div class="room-grid">
-                <article>
-                    <img src="assets/commercial-villa.jpg" alt="Commercial Villa" onerror="this.style.display='none'">
-                    <div>
-                        <strong>Commercial Villa</strong>
-                        <span>Referensi visual kamar utama</span>
-                    </div>
-                </article>
-                <article>
-                    <img src="assets/superior-villa.jpg" alt="Superior Villa" onerror="this.style.display='none'">
-                    <div>
-                        <strong>Superior Villa</strong>
-                        <span>Referensi visual kamar premium</span>
-                    </div>
-                </article>
+            <div class="adm-hero-identity">
+                <span class="adm-id-label">Admin Identity</span>
+                <strong>Muhamad Sari Rizki</strong>
+                <span>2301010008</span>
             </div>
+        </section>
 
-            <div class="table-wrap">
-                <table>
+        <!-- Stats -->
+        <section class="adm-stats">
+            <div class="adm-stat-card">
+                <div class="adm-stat-value"><?= $totalKamar ?></div>
+                <div class="adm-stat-label">Total Kamar</div>
+            </div>
+            <div class="adm-stat-card">
+                <div class="adm-stat-value adm-text-green"><?= $totalAvailable ?></div>
+                <div class="adm-stat-label">Available</div>
+            </div>
+            <div class="adm-stat-card">
+                <div class="adm-stat-value adm-text-gold"><?= $totalCleaning ?></div>
+                <div class="adm-stat-label">Cleaning</div>
+            </div>
+            <div class="adm-stat-card">
+                <div class="adm-stat-value adm-text-red"><?= $totalMaintenance ?></div>
+                <div class="adm-stat-label">Maintenance</div>
+            </div>
+            <div class="adm-stat-card">
+                <div class="adm-stat-value"><?= rupiah($hargaTertinggi) ?></div>
+                <div class="adm-stat-label">Harga Tertinggi</div>
+            </div>
+            <div class="adm-stat-card">
+                <div class="adm-stat-value adm-text-small">villa_rizki_db</div>
+                <div class="adm-stat-label">Database Aktif</div>
+            </div>
+        </section>
+
+        <!-- Data Table -->
+        <section class="adm-table-section">
+            <div class="adm-table-header">
+                <div>
+                    <h2>Daftar Kamar</h2>
+                    <p>Data tersinkronisasi langsung dengan MariaDB</p>
+                </div>
+                <a href="tambah.php" class="adm-btn adm-btn-primary">Tambah Kamar</a>
+            </div>
+            <div class="adm-table-responsive">
+                <table class="adm-table">
                     <thead>
                         <tr>
-                            <th>ID</th>
+                            <th>Unit</th>
                             <th>Nama Kamar</th>
                             <th>Tipe</th>
                             <th>Harga</th>
@@ -150,27 +116,26 @@ $heroStyle = file_exists($heroPath) ? " style=\"background-image: linear-gradien
                     <tbody>
                         <?php if ($rooms === []): ?>
                             <tr>
-                                <td colspan="6" class="empty">Belum ada data kamar.</td>
+                                <td colspan="6" class="adm-empty">Belum ada data kamar.</td>
                             </tr>
                         <?php endif; ?>
 
                         <?php foreach ($rooms as $room): ?>
                             <tr>
-                                <td><?= (int) $room['id'] ?></td>
                                 <td>
-                                    <div class="room-name">
-                                        <strong><?= h($room['nama_kamar']) ?></strong>
-                                        <span>Unit #<?= str_pad((string) $room['id'], 3, '0', STR_PAD_LEFT) ?></span>
+                                    <span class="adm-unit">Unit #<?= str_pad((string) $room['id'], 3, '0', STR_PAD_LEFT) ?></span>
+                                </td>
+                                <td><strong><?= h($room['nama_kamar']) ?></strong></td>
+                                <td><span class="adm-type-pill"><?= h($room['tipe']) ?></span></td>
+                                <td><strong class="adm-price"><?= rupiah((int) $room['harga']) ?></strong></td>
+                                <td>
+                                    <span class="adm-badge <?= statusClass($room['status']) ?>"><?= h($room['status']) ?></span>
+                                </td>
+                                <td>
+                                    <div class="adm-action-group">
+                                        <a href="edit.php?id=<?= (int) $room['id'] ?>" class="adm-btn-action adm-btn-edit">Edit</a>
+                                        <a href="hapus.php?id=<?= (int) $room['id'] ?>" class="adm-btn-action adm-btn-delete" onclick="return confirm('Hapus data kamar ini?')">Hapus</a>
                                     </div>
-                                </td>
-                                <td><span class="type-pill"><?= h($room['tipe']) ?></span></td>
-                                <td><strong class="price"><?= rupiah((int) $room['harga']) ?></strong></td>
-                                <td>
-                                    <span class="status <?= statusClass($room['status']) ?>"><?= h($room['status']) ?></span>
-                                </td>
-                                <td class="actions">
-                                    <a class="link edit" href="edit.php?id=<?= (int) $room['id'] ?>">Edit</a>
-                                    <a class="link delete" href="hapus.php?id=<?= (int) $room['id'] ?>" onclick="return confirm('Hapus data kamar ini?')">Hapus</a>
                                 </td>
                             </tr>
                         <?php endforeach; ?>
