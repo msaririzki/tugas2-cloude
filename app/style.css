@@ -2742,6 +2742,53 @@ select:focus {
   letter-spacing: -0.045em;
 }
 
+.adm-filter-bar {
+  display: grid;
+  grid-template-columns: minmax(220px, 1fr) minmax(190px, 260px) auto;
+  gap: 16px;
+  align-items: end;
+  padding: 22px 34px;
+  border-bottom: 1px solid #edf2ef;
+  background: rgba(255, 255, 255, 0.78);
+}
+
+.adm-filter-field label {
+  display: block;
+  margin-bottom: 8px;
+  color: #51645b;
+  font-size: 12px;
+  font-weight: 900;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.adm-filter-field input,
+.adm-filter-field select {
+  width: 100%;
+  min-height: 46px;
+  box-sizing: border-box;
+  border: 1px solid #d9e3dd;
+  border-radius: 14px;
+  background: #fbfdfc;
+  color: #102e25;
+  font-size: 14px;
+  font-weight: 700;
+  padding: 0 14px;
+}
+
+.adm-filter-field input:focus,
+.adm-filter-field select:focus {
+  outline: none;
+  border-color: #1f684c;
+  box-shadow: 0 0 0 4px rgba(31, 104, 76, 0.1);
+}
+
+.adm-filter-actions {
+  display: flex;
+  gap: 10px;
+  justify-content: flex-end;
+}
+
 .adm-table th {
   background: #102e25;
   color: rgba(255, 255, 255, 0.82);
@@ -2843,5 +2890,14 @@ select:focus {
 
   .adm-stack-grid {
     grid-template-columns: 1fr;
+  }
+
+  .adm-filter-bar {
+    grid-template-columns: 1fr;
+    padding: 20px;
+  }
+
+  .adm-filter-actions {
+    flex-direction: column;
   }
 }

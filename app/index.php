@@ -12,6 +12,20 @@ $totalAvailable = count(array_filter($rooms, fn ($room) => $room['status'] === '
 $totalCleaning = count(array_filter($rooms, fn ($room) => $room['status'] === 'Cleaning'));
 $totalMaintenance = count(array_filter($rooms, fn ($room) => $room['status'] === 'Maintenance'));
 $hargaTertinggi = $rooms === [] ? 0 : max(array_map(fn ($room) => (int) $room['harga'], $rooms));
+$search = trim($_GET['q'] ?? '');
+$statusFilter = $_GET['status'] ?? '';
+$validFilterStatuses = ['Available', 'Cleaning', 'Maintenance'];
+if (!in_array($statusFilter, $validFilterStatuses, true)) {
+    $statusFilter = '';
+}
+$filteredRooms = array_values(array_filter($rooms, function (array $room) use ($search, $statusFilter): bool {
+    $matchesSearch = $search === ''
+        || stripos($room['nama_kamar'], $search) !== false
+        || stripos($room['tipe'], $search) !== false;
+    $matchesStatus = $statusFilter === '' || $room['status'] === $statusFilter;
+
+    return $matchesSearch && $matchesStatus;
+}));
 $requestHost = $_SERVER['HTTP_HOST'] ?? 'localhost:8000';
 $phpMyAdminHost = str_replace([':18000', ':8000'], [':18001', ':8001'], $requestHost);
 $phpMyAdminUrl = 'http://' . $phpMyAdminHost;
@@ -132,10 +146,29 @@ $phpMyAdminUrl = 'http://' . $phpMyAdminHost;
                 <div>
                     <span class="adm-section-kicker">Live Room Inventory</span>
                     <h2>Daftar Kamar</h2>
-                    <p>Data tersinkronisasi langsung dengan MariaDB</p>
+                    <p>Data tersinkronisasi langsung dengan MariaDB. Menampilkan <?= count($filteredRooms) ?> dari <?= $totalKamar ?> kamar.</p>
                 </div>
                 <a href="tambah.php" class="adm-btn adm-btn-primary">Tambah Kamar</a>
             </div>
+            <form method="get" class="adm-filter-bar">
+                <div class="adm-filter-field">
+                    <label for="q">Cari kamar</label>
+                    <input id="q" type="search" name="q" value="<?= h($search) ?>" placeholder="Nama atau tipe kamar">
+                </div>
+                <div class="adm-filter-field">
+                    <label for="status">Filter status</label>
+                    <select id="status" name="status">
+                        <option value="">Semua status</option>
+                        <?php foreach ($validFilterStatuses as $status): ?>
+                            <option value="<?= $status ?>" <?= $statusFilter === $status ? 'selected' : '' ?>><?= $status ?></option>
+                        <?php endforeach; ?>
+                    </select>
+                </div>
+                <div class="adm-filter-actions">
+                    <button type="submit" class="adm-btn adm-btn-primary">Terapkan Filter</button>
+                    <a href="index.php" class="adm-btn adm-btn-outline">Reset</a>
+                </div>
+            </form>
             <div class="adm-table-responsive">
                 <table class="adm-table">
                     <thead>
@@ -149,13 +182,13 @@ $phpMyAdminUrl = 'http://' . $phpMyAdminHost;
                         </tr>
                     </thead>
                     <tbody>
-                        <?php if ($rooms === []): ?>
+                        <?php if ($filteredRooms === []): ?>
                             <tr>
-                                <td colspan="6" class="adm-empty">Belum ada data kamar.</td>
+                                <td colspan="6" class="adm-empty">Tidak ada kamar yang cocok dengan filter.</td>
                             </tr>
                         <?php endif; ?>
 
-                        <?php foreach ($rooms as $room): ?>
+                        <?php foreach ($filteredRooms as $room): ?>
                             <tr>
                                 <td>
                                     <span class="adm-unit">Unit #<?= str_pad((string) $room['id'], 3, '0', STR_PAD_LEFT) ?></span>
