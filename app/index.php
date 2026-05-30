@@ -57,8 +57,6 @@ $phpMyAdminUrl = 'http://' . $phpMyAdminHost;
                 <p>Kelola data kamar, harga, dan status operasional villa dari satu dashboard.</p>
                 <div class="adm-hero-actions">
                     <a href="tambah.php" class="adm-btn adm-btn-primary">Tambah Kamar</a>
-                    <a href="publik.php" class="adm-btn adm-btn-secondary">Lihat Tampilan Publik</a>
-                    <a href="<?= h($phpMyAdminUrl) ?>" target="_blank" rel="noreferrer" class="adm-btn adm-btn-outline">Buka phpMyAdmin</a>
                 </div>
             </div>
             <div class="adm-hero-identity">
@@ -100,6 +98,31 @@ $phpMyAdminUrl = 'http://' . $phpMyAdminHost;
                 <div class="adm-stat-value adm-text-small">villa_rizki_db</div>
                 <div class="adm-stat-label">Database Aktif</div>
                 <span class="adm-stat-note">MariaDB container</span>
+            </div>
+        </section>
+
+        <section class="adm-stack">
+            <div class="adm-stack-heading">
+                <span class="adm-section-kicker">Containerized Stack</span>
+                <h2>Arsitektur Service</h2>
+                <p>Ringkasan service yang berjalan melalui Podman Compose untuk memenuhi kebutuhan deployment tugas.</p>
+            </div>
+            <div class="adm-stack-grid">
+                <article>
+                    <span class="adm-stack-port">:8000</span>
+                    <strong>php-apache-rizki</strong>
+                    <p>Menjalankan aplikasi PHP CRUD dan halaman publik villa.</p>
+                </article>
+                <article>
+                    <span class="adm-stack-port">:3306</span>
+                    <strong>mariadb-rizki</strong>
+                    <p>Menyimpan tabel <code>kamar</code> dan data awal dari <code>init.sql</code>.</p>
+                </article>
+                <article>
+                    <span class="adm-stack-port">:8001</span>
+                    <strong>phpmyadmin-rizki</strong>
+                    <p>Antarmuka database untuk validasi data melalui browser.</p>
+                </article>
             </div>
         </section>
 
