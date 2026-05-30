@@ -20,10 +20,10 @@ $heroStyle = file_exists($heroPath) ? " style=\"background-image: linear-gradien
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>CRUD Data Kamar Villa</title>
+    <title>Admin Panel Dafano Villa</title>
     <link rel="stylesheet" href="style.css">
 </head>
-<body>
+<body class="admin-body">
     <main class="page-shell">
         <nav class="topbar">
             <div class="brand">
@@ -31,8 +31,8 @@ $heroStyle = file_exists($heroPath) ? " style=\"background-image: linear-gradien
                     <img src="assets/logo-dafano-villa.jpg" alt="Logo Dafano Villa">
                 <?php endif; ?>
                 <div>
-                    <strong>Dafano Villa Rooms</strong>
-                    <span>CRUD PHP + MariaDB</span>
+                    <strong>Dafano Villa Admin</strong>
+                    <span>Room Management Suite</span>
                 </div>
             </div>
             <div class="top-actions">

@@ -36,7 +36,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <title>Tambah Kamar</title>
     <link rel="stylesheet" href="style.css">
 </head>
-<body>
+<body class="form-body">
     <main class="form-shell">
         <div class="form-nav">
             <a class="back-link" href="index.php">Kembali ke Admin Panel</a>
