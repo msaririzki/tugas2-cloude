@@ -12,6 +12,9 @@ $totalAvailable = count(array_filter($rooms, fn ($room) => $room['status'] === '
 $totalCleaning = count(array_filter($rooms, fn ($room) => $room['status'] === 'Cleaning'));
 $totalMaintenance = count(array_filter($rooms, fn ($room) => $room['status'] === 'Maintenance'));
 $hargaTertinggi = $rooms === [] ? 0 : max(array_map(fn ($room) => (int) $room['harga'], $rooms));
+$requestHost = $_SERVER['HTTP_HOST'] ?? 'localhost:8000';
+$phpMyAdminHost = str_replace([':18000', ':8000'], [':18001', ':8001'], $requestHost);
+$phpMyAdminUrl = 'http://' . $phpMyAdminHost;
 ?>
 <!doctype html>
 <html lang="id">
@@ -36,7 +39,7 @@ $hargaTertinggi = $rooms === [] ? 0 : max(array_map(fn ($room) => (int) $room['h
         <div class="adm-nav-links">
             <a href="publik.php">Tampilan Publik</a>
             <a href="index.php" class="adm-active">Admin Panel</a>
-            <a href="http://localhost:8001" target="_blank">phpMyAdmin</a>
+            <a href="<?= h($phpMyAdminUrl) ?>" target="_blank" rel="noreferrer">phpMyAdmin</a>
             <span class="adm-nim-badge">2301010008</span>
         </div>
     </nav>
@@ -49,18 +52,20 @@ $hargaTertinggi = $rooms === [] ? 0 : max(array_map(fn ($room) => (int) $room['h
         <!-- Hero -->
         <section class="adm-hero">
             <div class="adm-hero-content">
+                <span class="adm-kicker">Villa Operations Console</span>
                 <h1>Admin Panel Kamar Villa</h1>
                 <p>Kelola data kamar, harga, dan status operasional villa dari satu dashboard.</p>
                 <div class="adm-hero-actions">
                     <a href="tambah.php" class="adm-btn adm-btn-primary">Tambah Kamar</a>
                     <a href="publik.php" class="adm-btn adm-btn-secondary">Lihat Tampilan Publik</a>
-                    <a href="http://localhost:8001" target="_blank" class="adm-btn adm-btn-outline">Buka phpMyAdmin</a>
+                    <a href="<?= h($phpMyAdminUrl) ?>" target="_blank" rel="noreferrer" class="adm-btn adm-btn-outline">Buka phpMyAdmin</a>
                 </div>
             </div>
             <div class="adm-hero-identity">
                 <span class="adm-id-label">Admin Identity</span>
                 <strong>Muhamad Sari Rizki</strong>
                 <span>2301010008</span>
+                <small>Cloud Computing Final Project</small>
             </div>
         </section>
 
@@ -69,26 +74,32 @@ $hargaTertinggi = $rooms === [] ? 0 : max(array_map(fn ($room) => (int) $room['h
             <div class="adm-stat-card">
                 <div class="adm-stat-value"><?= $totalKamar ?></div>
                 <div class="adm-stat-label">Total Kamar</div>
+                <span class="adm-stat-note">Unit aktif di database</span>
             </div>
             <div class="adm-stat-card">
                 <div class="adm-stat-value adm-text-green"><?= $totalAvailable ?></div>
                 <div class="adm-stat-label">Available</div>
+                <span class="adm-stat-note">Siap ditampilkan publik</span>
             </div>
             <div class="adm-stat-card">
                 <div class="adm-stat-value adm-text-gold"><?= $totalCleaning ?></div>
                 <div class="adm-stat-label">Cleaning</div>
+                <span class="adm-stat-note">Dalam persiapan</span>
             </div>
             <div class="adm-stat-card">
                 <div class="adm-stat-value adm-text-red"><?= $totalMaintenance ?></div>
                 <div class="adm-stat-label">Maintenance</div>
+                <span class="adm-stat-note">Perlu pengecekan</span>
             </div>
             <div class="adm-stat-card">
                 <div class="adm-stat-value"><?= rupiah($hargaTertinggi) ?></div>
                 <div class="adm-stat-label">Harga Tertinggi</div>
+                <span class="adm-stat-note">Format rupiah otomatis</span>
             </div>
             <div class="adm-stat-card">
                 <div class="adm-stat-value adm-text-small">villa_rizki_db</div>
                 <div class="adm-stat-label">Database Aktif</div>
+                <span class="adm-stat-note">MariaDB container</span>
             </div>
         </section>
 
@@ -96,6 +107,7 @@ $hargaTertinggi = $rooms === [] ? 0 : max(array_map(fn ($room) => (int) $room['h
         <section class="adm-table-section">
             <div class="adm-table-header">
                 <div>
+                    <span class="adm-section-kicker">Live Room Inventory</span>
                     <h2>Daftar Kamar</h2>
                     <p>Data tersinkronisasi langsung dengan MariaDB</p>
                 </div>
